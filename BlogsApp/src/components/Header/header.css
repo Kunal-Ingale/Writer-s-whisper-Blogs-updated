@@ -1,0 +1,45 @@
+/* header.css */
+.header {
+  margin-top: 0;
+  background: linear-gradient(135deg,  #c5f3b2c4, #99a8e7); /* Gradient background */
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white; /* Text color */
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+}
+
+.headerTitles {
+  font-family: "Poppins", sans-serif;
+  color: #444;
+  font-weight: 700;
+  margin-bottom: 1rem; /* Space between titles and additional text */
+}
+
+.headerTitleSm {
+  font-size: 3rem;
+  display: block; /* Ensure each title is on a separate line */
+}
+
+.additionalText {
+  font-size: 1.12rem;
+  color: rgb(77, 77, 77);
+  margin-bottom: 1.5rem; /* Space between additional text and button */
+}
+
+.writeBlogButton {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: white;
+  background-color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.writeBlogButton:hover {
+  background-color: #444;
+}

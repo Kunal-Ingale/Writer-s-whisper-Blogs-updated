@@ -1,0 +1,96 @@
+/* login.css */
+.login {
+  height: calc(100vh - 110px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.8),
+    rgba(0, 0, 0, 0.1)
+  );
+  padding: 20px;
+  color: initial; /* Reset text color to default */
+}
+
+.loginTitle {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.loginForm {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.loginForm > label {
+  margin: 10px 0 5px;
+  font-weight: 500;
+  color: #555;
+}
+
+.loginInput {
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+.loginInput:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.loginButton,
+.registerButton {
+  width: 100%; /* Make buttons full width */
+  cursor: pointer;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-bottom: 50px;
+  margin-top: 10px; /* Adjust margin if necessary */
+  transition: background-color 0.3s ease;
+}
+
+.loginButton {
+  background-color: #007bff;
+  color: white;
+}
+
+.loginButton:hover {
+  background-color: #0056b3;
+}
+
+.loginButton:disabled {
+  cursor: not-allowed;
+  background-color: rgb(246, 179, 91);
+}
+
+.registerButton {
+  background-color: #6c757d;
+  color: white;
+}
+
+.registerButton:hover {
+  background-color: #5a6268;
+}
+
+.link {
+  text-decoration: none;
+  color: white;
+}

@@ -1,0 +1,109 @@
+/* register.css */
+.register {
+  font-family: 'poppins',sans-serif;
+  height: calc(100vh - 90px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.8),
+    rgba(0, 0, 0, 0.1)
+  );
+  padding: 20px;
+  color: initial; /* Reset text color to default */
+}
+
+.registerTitle {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.registerForm {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.registerForm > label {
+  margin: 10px 0 5px;
+  font-weight: 500;
+  color: #555;
+}
+
+.registerInput {
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #333;
+  transition: border-color 0.3s ease;
+  margin-bottom: 0px;
+}
+
+.registerInput:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.registerButton {
+  
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+  
+}
+
+.registerButton:hover {
+  background-color: #0056b3;
+}
+
+.para {
+  margin-top: -90px;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.registerLoginButton {
+  background-color: #6c757d;
+  cursor: pointer;
+  padding: 10px 20px;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-top: -10px;
+  transition: background-color 0.3s ease;
+}
+
+.registerLoginButton:hover {
+  background-color: #5a6268;
+}
+
+.link {
+  text-decoration: none;
+  color: white;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
