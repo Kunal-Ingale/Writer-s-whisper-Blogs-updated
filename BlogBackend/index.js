@@ -11,7 +11,8 @@ const path = require("path")
 
 
 dotenv.config();
-app.use(express.json())
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 app.use("/images/", express.static(path.join(__dirname, "/images")));
 
@@ -27,7 +28,10 @@ const storage = multer.diskStorage({
         }
     })
 
-const upload = multer({storage:storage})
+const upload = multer({
+    storage:storage,
+    limits: { fileSize: 50 * 1024 * 1024 } // 50MB limit
+})
 app.post('/api/upload',upload.single('file'),(req,res)=>{
     if (req.file) {
         res.status(200).send('File uploaded successfully');

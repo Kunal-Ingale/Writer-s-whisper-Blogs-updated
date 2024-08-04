@@ -1,9 +1,8 @@
 import React, { useContext, useState } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // Import styles
 import './write.css';
 import { Context } from '../../Context/Context';
 import axios from 'axios';
+
 
 function Write() {
   const [title, setTitle] = useState("");
@@ -91,23 +90,11 @@ function Write() {
           />
         </div>
         <div className="writeFormGroup">
-          <ReactQuill
-            value={desc}
-            onChange={setDesc}
-            placeholder="Write the Blog..."
-            className="writeText"
-            modules={{
-              toolbar: [
-                [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
-                [{size: []}],
-                ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                [{'list': 'ordered'}, {'list': 'bullet'}, 
-                 {'indent': '-1'}, {'indent': '+1'}],
-                ['link', 'image', 'video'],
-                ['clean']                                         
-              ],
-            }}
-          />
+          <textarea 
+          placeholder='Write the Blog...' type:Text
+          className="writeInput writeText" 
+          onChange={e =>(setDesc(e.target.value))}
+          ></textarea>
         </div>
         <button className="writeSubmit" type="submit">Publish</button>
       </form>
