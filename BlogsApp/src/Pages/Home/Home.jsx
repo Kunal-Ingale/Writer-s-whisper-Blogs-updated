@@ -1,6 +1,5 @@
 
 import Header from '../../components/Header/Header'
-
 import Posts from '../../Pages/Posts/Posts'
 import axios from 'axios'
 import { useState,useEffect } from 'react'
@@ -11,7 +10,6 @@ function Home() {
 
   const {search} = useLocation()
   
-
   useEffect( ()=>{
     const fetchData = async () => {
     try {
