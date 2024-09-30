@@ -12,7 +12,7 @@ const cors = require('cors')
 
 app.use(cors(
     {
-        origin:[""],
+        origin:["https://writer-s-whisper-blogs-app.vercel.app"],
         methods:["GET","POST", "PUT", "DELETE"],
         credentials:true
     }
