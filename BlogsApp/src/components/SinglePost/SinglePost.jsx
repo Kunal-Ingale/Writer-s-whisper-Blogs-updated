@@ -10,7 +10,7 @@ function SinglePost() {
     //http://localhost:5173/post/66aefa6b63effaf152add1db 
     //['', 'post', '66aefa6b63effaf152add1db']
     const [post, setPost] = useState({});
-    const publicFolder = 'http://localhost:5000/images/';
+    const publicFolder = 'https://writer-s-whisper-blogs.vercel.app/images/';
     const { user } = useContext(Context);
 
     const [title, setTitle] = useState("");
