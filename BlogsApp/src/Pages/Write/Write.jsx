@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import './write.css';
 import { Context } from '../../Context/Context';
 import axios from 'axios';
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 
 function Write() {
@@ -24,7 +25,7 @@ function Write() {
     categories.forEach(async (c) => {
       const newCat = { name: c };
       try {
-        await axios.post("/api/categories/", newCat);
+        await axios.post(`${apiBaseUrl}/categories/`, newCat);
       } catch (error) {
         console.log("Error creating category:", error);
       }
@@ -38,14 +39,14 @@ function Write() {
       newPost.photo = fileName;
 
       try {
-        await axios.post('/api/upload', data);
+        await axios.post(`${apiBaseUrl}/upload`, data);
       } catch (error) {
         console.log("Error uploading file:", error);
       }
     }
 
     try {
-      const res = await axios.post('/api/posts/', newPost);
+      const res = await axios.post(`${apiBaseUrl}/posts/`, newPost);
       window.location.replace('/post/' + res.data._id);
     } catch (err) {
       console.log(err);

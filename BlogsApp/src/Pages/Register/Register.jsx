@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import './register.css'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
 
 function Register() {
 
@@ -14,12 +16,12 @@ function Register() {
     e.preventDefault();
     setError(false)
     try {
-      const res = await axios.post('/api/auth/register',{
+      const res = await axios.post(`${apiBaseUrl}/auth/register`,{
         username,
         email,
         password
       })
-      res.data && window.location.replace("/login")
+      res.data && window.location.replace(`${apiBaseUrl}/login`)
     }
     
     catch (error) {
@@ -53,10 +55,7 @@ function Register() {
         <Link to='/login'  className='link'>Login</Link>
       </button>
       </form>
-      
-      {/* <button className="registerLoginButton">
-        <Link to='/login'  className='link'>Login</Link>
-      </button> */}
+    
       {error && <span style={{color:"red", marginTop:"5px"}}>Something went Wrong!</span>}
     </div>
   )
