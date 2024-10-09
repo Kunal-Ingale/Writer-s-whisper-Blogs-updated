@@ -17,7 +17,7 @@
     
 
 
-    const publicFolder = 'http://localhost:5000/images/'  
+    const publicFolder = 'https://writer-s-whisper-blogs.vercel.app/images/'  
 
     const handleUpdate = async (e)=>{
       e.preventDefault();
