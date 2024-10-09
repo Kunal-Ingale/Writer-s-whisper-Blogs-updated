@@ -86,7 +86,7 @@ router.delete('/:id',async (req,res)=>{
         else{
             posts = await Post.find()
         }
-        
+          
         res.status(200).json(posts);
        
         

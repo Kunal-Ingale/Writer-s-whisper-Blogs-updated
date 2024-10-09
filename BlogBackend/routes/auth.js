@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt')
-
+//mongodb+srv://:<db_password>@blogs.xplujt4.mongodb.net/?retryWrites=true&w=majority&appName=Blogs
 //register
 router.post('/register',async(req,res)=>{
     try{

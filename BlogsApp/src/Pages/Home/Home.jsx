@@ -5,6 +5,8 @@ import axios from 'axios'
 import { useState,useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+console.log(apiBaseUrl);
+
 
 
 function Home() {
