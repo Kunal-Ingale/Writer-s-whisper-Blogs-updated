@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './post.css';
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 function Post({ post }) {
-  const publicFolder = 'https://writer-s-whisper-blogs.vercel.app/images/';  // public folder to add all images
+  const publicFolder = `${apiBaseUrl}/images/`;  // public folder to add all images
 
   return (
     <div className='post'>

@@ -3,14 +3,17 @@ import './singlePost.css';
 import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Context } from '../../Context/Context';
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+import api from '../../../utils/api'
+
 
 function SinglePost() {
     const location = useLocation();
     const path = location.pathname.split('/')[2];
     //http://localhost:5173/post/66aefa6b63effaf152add1db 
-    //['', 'post', '66aefa6b63effaf152add1db']
+    //['', 'post', 'id 66aefa6b63effaf152add1db']
     const [post, setPost] = useState({});
-    const publicFolder = 'https://writer-s-whisper-blogs.vercel.app/images/';
+    const publicFolder = `${apiBaseUrl}/images/`;
     const { user } = useContext(Context);
 
     const [title, setTitle] = useState("");
@@ -19,7 +22,8 @@ function SinglePost() {
 
     useEffect(() => {
         const getPost = async () => {
-            const res = await axios.get('/api/posts/' + path);
+            const res = await api.get(`${apiBaseUrl}/api/posts/` + path);
+            // console.log("Post data:", res); 
             setPost(res.data);
             setTitle(res.data.title);
             setDesc(res.data.desc);
@@ -29,7 +33,7 @@ function SinglePost() {
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`/api/posts/${post._id}`, { data: { username: user.username } });
+            await api.delete(`/api/posts/${post._id}`, { data: { username: user.username } });
             window.location.replace('/');
         } catch (err) {
             console.log("error" + err);
@@ -38,7 +42,7 @@ function SinglePost() {
 
     const handleUpdate = async () => {
         try {
-            await axios.put(`/api/posts/${post._id}`, {
+            await api.put(`/api/posts/${post._id}`, {
                 username: user.username,
                 title,
                 desc

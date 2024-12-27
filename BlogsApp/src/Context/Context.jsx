@@ -1,34 +1,49 @@
-import { createContext,useReducer } from "react";
+import React, { createContext, useReducer, useEffect } from "react";
 import Reducer from "./reducer";
-import { useEffect } from "react";
 
-const INTIAL_STATE ={
-  user:JSON.parse(localStorage.getItem("user") )|| null,
-  isFetching:false,
-  error:false
-}
+// Initial state structure
+const INITIAL_STATE = {
 
-export const Context = createContext(INTIAL_STATE)
+  user: localStorage.getItem("user"),
+  isFetching: false,
+  error: false,
+};
 
-export const ContextProvider = ({children})=>{
-    const [state , dispatch] = useReducer(Reducer,INTIAL_STATE)
+// Create context
+export const Context = createContext(INITIAL_STATE);
 
-     useEffect (()=>{
-    localStorage.setItem("user",JSON.stringify(state.user))
-     },[state.user])
+export const ContextProvider = ({ children }) => {
+  // Initialize useReducer with the state and dispatch function
+  const [state, dispatch] = useReducer(Reducer, INITIAL_STATE);
 
-     
+  // Synchronize user data with localStorage
+  useEffect(() => {
+    if (state.user) {
+      localStorage.setItem("user", JSON.stringify(state.user));
+    } else {
+      localStorage.removeItem("user");
+    }
+  }, [state.user]); // Only sync when user changes
 
-    return(
-    <Context.Provider value={
-        {user:state.user,
-         isFetching:state.isFetching,
-         error:state.error,
-         dispatch
-        }
-    }>
-        {children} 
-        </Context.Provider>
-)
-}
+  // Return the context provider with values and the dispatch function
+  return (
+    <Context.Provider
+      value={{
+        user: state.user,
+        isFetching: state.isFetching,
+        error: state.error,
+        dispatch, // Pass dispatch so it can be used in components
+      }}
+    >
+      {children} {/* Children components can access context values */}
+    </Context.Provider>
+  );
+};
+
+
+
+
+
+// <App /> will be passed to the ContextProvider component as the children prop.
+    //any components or JSX passed as children will have access to the context values provided by Context.Provider. It's a way of sharing state or functionality across a tree of components.
 // dispatch is a function that comes from the useReducer hook. It's used to send actions to the reducer function, which in turn updates the state of your application

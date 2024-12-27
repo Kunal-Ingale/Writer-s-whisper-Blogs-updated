@@ -4,8 +4,7 @@
   import { useState } from 'react'
   import axios from 'axios'
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-
-
+  import api from '../../../utils/api'
 
   function Setting() {
     const[file,setFile] = useState(null)
@@ -14,10 +13,6 @@
     const[password,setPassword] = useState(" ")
     const[success,setSuccess] = useState(false)
     const {user,dispatch} = useContext(Context)
-    
-
-
-    const publicFolder = 'https://writer-s-whisper-blogs.vercel.app/images/'  
 
     const handleUpdate = async (e)=>{
       e.preventDefault();
@@ -25,7 +20,8 @@
       const updatedUser ={
       userId:user._id,
       username,
-      email,password
+      email,
+      password
       }
       //for storing data
       if(file){
@@ -36,13 +32,15 @@
       updatedUser.profilePic = fileName;
       
       try {
-        await axios.post(`${apiBaseUrl}/upload`,data)
+        await api.post(`${apiBaseUrl}/api/upload`,data)
+        
       } catch (error) {
         console.log("Error uploading file:", error);
       }
       }
       try{
-      const res = await axios.put(`${apiBaseUrl}/users` + user._id,updatedUser)
+        // console.log(user._id, " " , updatedUser);
+      const res = await api.put(`${apiBaseUrl}/api/users/` + user._id,updatedUser)
       setSuccess(true)
       dispatch({type:"UPDATE_SUCCESS" , payload:res.data})
     }
@@ -62,10 +60,7 @@
           <span style={{color:'red'}}>Note: You have to fill all the details before updating </span>
           <form className='settingForm' onSubmit={handleUpdate} >
             <label >Profile Picture</label>
-            <div className='settingPP'>
-              <img 
-              src={file ? URL.createObjectURL(file) : publicFolder +user.profilePic} alt="" />
-            
+            <div className='settingPP'>    
               <label htmlFor="fileInput">
               <i className="settingPPIcon fa-solid fa-user"></i>
               </label>
@@ -73,7 +68,8 @@
               type="file" 
               id="fileInput" 
               style={{display:"none"}} 
-              onChange={(e)=> setFile(e.target.files[0])}/>
+              onChange={(e)=> setFile(e.target.files[0])}/>  
+              {/* fileList object acts like array */}
             </div>
             
             <label >Username</label>
