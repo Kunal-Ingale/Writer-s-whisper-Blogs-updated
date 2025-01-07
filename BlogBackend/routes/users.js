@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-const verifyToken = require('../Middleware/VerifyToken'); // Ensure this is correctly implemented
+const verifyToken = require('../Middleware/VerifyToken'); 
 
 // Update User
 router.put('/:id', verifyToken, async (req, res) => {

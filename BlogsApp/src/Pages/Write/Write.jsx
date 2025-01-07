@@ -14,8 +14,6 @@ function Write() {
   const [file, setFile] = useState(null);
   const [cat, setCat] = useState("");
   const { user } = useContext(Context);
- const navigate = useNavigate()
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();

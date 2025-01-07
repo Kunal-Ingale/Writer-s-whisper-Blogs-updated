@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import './register.css';
 import { Link,useNavigate } from 'react-router-dom';
-import axios from 'axios';
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 import { Context } from '../../Context/Context';
 import api from '../../../utils/api'

@@ -12,7 +12,7 @@ import { Context } from './Context/Context';
 import About from './Pages/About/About';
 
 function App() {
-  const { user } = useContext(Context);
+  
   const isAuthenticated = !!localStorage.getItem('token');
 
   return (

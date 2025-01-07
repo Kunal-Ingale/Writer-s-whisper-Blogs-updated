@@ -3,9 +3,6 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-// const dotenv = require('dotenv')
-
-const JWT_SECRET = process.env.JWT_SECRET; // Replace with an environment variable for security
 
 // Register
 router.post('/register', async (req, res) => {
@@ -35,11 +32,11 @@ router.post('/login', async (req, res) => {
         const validated = await bcrypt.compare(req.body.password, user.password);
         if (!validated) return res.status(400).json("Wrong credentials");
 
-        // Generate JWT
+       
         const token = jwt.sign(
             { id: user._id, username: user.username },
             process.env.JWT_SECRET,
-            { expiresIn: '1h' } // Token expires in 1 hour
+            { expiresIn: '1h' } 
         );
         // console.log("Generated Token:", token);
         const { password, ...others } = user._doc; // Exclude password from response

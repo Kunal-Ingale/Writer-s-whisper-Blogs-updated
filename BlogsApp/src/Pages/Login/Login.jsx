@@ -2,7 +2,6 @@ import React, { useContext, useRef } from 'react';
 import './login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { Context } from '../../Context/Context';
-import axios from 'axios';
 import api from '../../../utils/api';
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
