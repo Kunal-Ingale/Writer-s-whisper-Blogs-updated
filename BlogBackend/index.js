@@ -18,7 +18,7 @@ app.use(cors(
     }
 ));
 
-app.options('*', cors());
+app.use(cors());
 
 dotenv.config();
 app.use(express.json({ limit: '50mb' }));
