@@ -1,30 +1,15 @@
 import React, { useContext } from 'react';
 import './topbar.css';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 import { Context } from '../../Context/Context';
 
 function Topbar() {
     const { user, dispatch } = useContext(Context);
-    const publicFolder = `${apiBaseUrl}/images/`;
+    const publicFolder = 'https://writer-s-whisper-blogs.vercel.app/images/';
 
-    const handleLogout = async () => {
-        try {
-           
-            const response = await axios.post(`${apiBaseUrl}/api/auth/logout`);
-
-            if (response.status === 200) {
-                
-                localStorage.removeItem('token');
-                dispatch({ type: "LOGOUT" })
-                window.location.href = '/login';
-            }
-        } catch (error) {
-            console.error("Logout error:", error);
-            alert("Failed to log out. Please try again.");
-        }
-    };
+    const handleLogout = () => {
+        dispatch({ type: "LOGOUT" });
+    }
 
     return (
         <div className='top'>
@@ -40,11 +25,7 @@ function Topbar() {
                     <li className="topListItem">
                         <Link className='link' to='/write'>WRITE</Link>
                     </li>
-                    {user && (
-                        <li className="topListItem" onClick={handleLogout}>
-                            LOGOUT
-                        </li>
-                    )}
+                    <li className="topListItem" onClick={handleLogout}>{user && "LOGOUT"}</li>
                 </ul>
             </div>
             <div className="topRight">

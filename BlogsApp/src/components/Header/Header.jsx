@@ -10,7 +10,7 @@ function Header() {
         
       </div>
       <div className="additionalText">
-        <span>A blogging site for everyone.</span><br />
+        <span>A blogging site for developers.</span><br />
         <span>Draft to publish in minutes</span>
       </div>
       <Link to={'/write'}>

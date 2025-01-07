@@ -1,11 +1,8 @@
 import React, { useContext, useState } from 'react';
 import './write.css';
 import { Context } from '../../Context/Context';
-
+import axios from 'axios';
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
-import api from '../../../utils/api'
-import { useNavigate } from 'react-router-dom';
-
 
 
 function Write() {
@@ -18,24 +15,21 @@ function Write() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const categories = cat.split(",");
-    // console.log(user);
-    
     const newPost = {
-      username:user.username,
+      username: user.username,
       title,
       desc,
       categories,
     };
- console.log(user.username);
- 
-    for (const c of categories) {
+
+    categories.forEach(async (c) => {
       const newCat = { name: c };
       try {
-        await api.post(`${apiBaseUrl}/api/categories/`, newCat);
+        await axios.post(`${apiBaseUrl}/categories/`, newCat);
       } catch (error) {
         console.log("Error creating category:", error);
       }
-    };
+    });
 
     if (file) {
       const data = new FormData();
@@ -45,14 +39,14 @@ function Write() {
       newPost.photo = fileName;
 
       try {
-        await api.post(`${apiBaseUrl}/api/upload`, data);
+        await axios.post(`${apiBaseUrl}/upload`, data);
       } catch (error) {
         console.log("Error uploading file:", error);
       }
     }
 
     try {
-      const res = await api.post(`${apiBaseUrl}/api/posts/`, newPost);
+      const res = await axios.post(`${apiBaseUrl}/posts/`, newPost);
       window.location.replace('/post/' + res.data._id);
     } catch (err) {
       console.log(err);
@@ -90,7 +84,7 @@ function Write() {
         <div className="writeFormGroup">
           <input
             type="text"
-            placeholder="Enter the Categories separated by , (comma)"
+            placeholder="Enter the Categories with ,"
             className="writeInput"
             value={cat}
             onChange={(e) => setCat(e.target.value)}
@@ -98,8 +92,7 @@ function Write() {
         </div>
         <div className="writeFormGroup">
           <textarea 
-          placeholder='Write the Blog...' 
-          type:Text
+          placeholder='Write the Blog...' type:Text
           className="writeInput writeText" 
           onChange={e =>(setDesc(e.target.value))}
           ></textarea>

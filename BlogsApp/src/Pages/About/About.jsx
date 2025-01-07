@@ -9,7 +9,7 @@ export default function About() {
         </span>
         <img src={pic} alt="UserImage"></img>
         <p>
-        Hi!, I am Kunal Ingale. I am currently in my Final year.
+        Hi!, I am Kunal Ingale. I am currently In my Pre-Final year student.
         I have created this blog website where anyone interested can upload a story/blog with a picture.
         </p>
         </div>
