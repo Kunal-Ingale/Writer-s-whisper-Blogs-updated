@@ -55,10 +55,12 @@ app.use('/api/users',userRoute)
 app.use('/api/posts',postRoute)
 app.use('/api/categories',categoryRoute)
 
-app.use(express.static("./BlogsApp/dist"));
-app.get("*",(req, res)=>{
-    res.sendFile(path.resolve(__dirname,"BlogsApp","dist","index.html"))
-})
+app.use(express.static(path.join(__dirname, "BlogsApp", "dist")));
+
+// Handle all routes and return the index.html for React Router to manage
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "BlogsApp", "dist", "index.html"));
+});
 
 app.listen("5000" ,()=>{
     console.log("running on 5000");
