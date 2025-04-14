@@ -9,7 +9,7 @@ const categoryRoute= require('./routes/categories')
 const multer = require('multer')
 const path = require("path")
 
-
+const PORT = process.env.PORT || 5000;
 dotenv.config();
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
@@ -45,6 +45,6 @@ app.use('/api/users',userRoute)
 app.use('/api/posts',postRoute)
 app.use('/api/categories',categoryRoute)
 
-app.listen("5000" ,()=>{
-    console.log("running on 5000");
+app.listen(PORT ,()=>{
+    console.log(`running on ${PORT}`);
 })
