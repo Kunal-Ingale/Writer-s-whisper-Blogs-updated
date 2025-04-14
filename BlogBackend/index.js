@@ -9,6 +9,7 @@ const categoryRoute= require('./routes/categories')
 const multer = require('multer')
 const path = require("path")
 const cors = require('cors')
+const PORT = process.env.PORT || 5000;
 
 app.use(cors(
     {
@@ -62,6 +63,7 @@ app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "..", "BlogsApp", "dist", "index.html"));
   });
 
-app.listen("5000" ,()=>{
-    console.log("running on 5000");
+
+app.listen(PORT ,()=>{
+    console.log(`running on ${PORT}`);
 })
