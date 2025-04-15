@@ -25,24 +25,42 @@ router.post('/register', async (req, res) => {
 
 // Login
 router.post('/login', async (req, res) => {
+    //console.log('🔐 Login request received:', req.body);
+
     try {
+        // Check if user exists
         const user = await User.findOne({ username: req.body.username });
-        if (!user) return res.status(400).json("Wrong credentials");
 
+        if (!user) {
+            return res.status(400).json("Wrong credentials");
+        }
+
+        // Validate password
         const validated = await bcrypt.compare(req.body.password, user.password);
-        if (!validated) return res.status(400).json("Wrong credentials");
-
        
+
+        if (!validated) {
+         
+            return res.status(400).json("Wrong credentials");
+        }
+
+        // Check JWT_SECRET
+        //console.log('🧪 JWT_SECRET:', process.env.JWT_SECRET);
+
+        // Generate JWT
         const token = jwt.sign(
             { id: user._id, username: user.username },
             process.env.JWT_SECRET,
-            { expiresIn: '1h' } 
+            { expiresIn: '1h' }
         );
-        // console.log("Generated Token:", token);
-        const { password, ...others } = user._doc; // Exclude password from response
+
+
+        // Exclude password before sending response
+        const { password, ...others } = user._doc;
         res.status(200).json({ ...others, token });
     } catch (err) {
-        res.status(500).json(err);
+        //console.error('🔥 Login error:', err);
+        res.status(500).json({ error: 'Something went wrong', details: err.message });
     }
 });
 
