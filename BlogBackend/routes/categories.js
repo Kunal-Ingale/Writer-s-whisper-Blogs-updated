@@ -1,7 +1,8 @@
 const router = require('express').Router()
 const category= require('../models/Category')
+const verifyToken = require('../Middleware/VerifyToken'); 
 
-router.post('/',async(req,res)=>{
+router.post('/',verifyToken,async(req,res)=>{
     const newCat = new category(req.body)
     try {
         const savedCat = await newCat.save()

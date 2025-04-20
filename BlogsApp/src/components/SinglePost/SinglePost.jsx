@@ -7,8 +7,10 @@ import { Context } from '../../Context/Context';
 function SinglePost() {
     const location = useLocation();
     const path = location.pathname.split('/')[2];
+    //http://localhost:5173/post/66aefa6b63effaf152add1db 
+    //['', 'post', '66aefa6b63effaf152add1db']
     const [post, setPost] = useState({});
-    const publicFolder = 'http://localhost:5000/images/';
+    const publicFolder = 'https://writer-s-whisper-blogs.vercel.app/images/';
     const { user } = useContext(Context);
 
     const [title, setTitle] = useState("");
@@ -22,7 +24,7 @@ function SinglePost() {
             setTitle(res.data.title);
             setDesc(res.data.desc);
         };
-        getPost();
+        getPost(); // to fecth the post as soon as component unmounts
     }, [path]);
 
     const handleDelete = async () => {

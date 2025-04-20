@@ -5,7 +5,7 @@ import { Context } from '../../Context/Context';
 
 function Topbar() {
     const { user, dispatch } = useContext(Context);
-    const publicFolder = 'http://localhost:5000/images/';
+    const publicFolder = 'https://writer-s-whisper-blogs.vercel.app/images/';
 
     const handleLogout = () => {
         dispatch({ type: "LOGOUT" });
