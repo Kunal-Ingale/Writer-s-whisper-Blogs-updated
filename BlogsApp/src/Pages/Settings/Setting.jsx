@@ -3,6 +3,8 @@
   import { Context } from '../../Context/Context'
   import { useState } from 'react'
   import axios from 'axios'
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
 
 
   function Setting() {
@@ -15,7 +17,7 @@
     
 
 
-    const publicFolder = 'http://localhost:5000/images/'  
+    const publicFolder = 'https://writer-s-whisper-blogs.vercel.app/images/'  
 
     const handleUpdate = async (e)=>{
       e.preventDefault();
@@ -34,13 +36,13 @@
       updatedUser.profilePic = fileName;
       
       try {
-        await axios.post('/api/upload',data)
+        await axios.post(`${apiBaseUrl}/upload`,data)
       } catch (error) {
         console.log("Error uploading file:", error);
       }
       }
       try{
-      const res = await axios.put('/api/users/' + user._id,updatedUser)
+      const res = await axios.put(`${apiBaseUrl}/users` + user._id,updatedUser)
       setSuccess(true)
       dispatch({type:"UPDATE_SUCCESS" , payload:res.data})
     }

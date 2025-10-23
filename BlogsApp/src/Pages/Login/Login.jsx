@@ -3,6 +3,8 @@ import './login.css'
 import { Link } from 'react-router-dom'
 import { Context } from '../../Context/Context'
 import axios from 'axios'
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+import api from '../../../utils/api';
 
 function Login() {
   const userRef = useRef()
@@ -13,7 +15,7 @@ function Login() {
     e.preventDefault()
     dispatch({type:"LOGIN_START"})
     try {
-      const res = await axios.post('/api/auth/login',{
+      const res = await api.post(`${apiBaseUrl}/auth/login`,{
        username:userRef.current.value,
        password:passRef.current.value
       })

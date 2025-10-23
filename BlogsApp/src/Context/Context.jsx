@@ -31,3 +31,4 @@ export const ContextProvider = ({children})=>{
         </Context.Provider>
 )
 }
+// dispatch is a function that comes from the useReducer hook. It's used to send actions to the reducer function, which in turn updates the state of your application

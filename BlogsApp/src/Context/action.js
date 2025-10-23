@@ -1,4 +1,4 @@
-export const loginStart = (userCredentials) => ({
+export const loginStart = () => ({
   type: "LOGIN_START",
 });
 
@@ -15,7 +15,7 @@ export const Logout = () => ({
   type: "LOGOUT",
 });
 
-export const updateStart = (userCredentials) => ({
+export const updateStart = () => ({
   type: "UPDATE_START",
 });
 
