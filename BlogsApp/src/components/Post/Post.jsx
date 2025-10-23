@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './post.css';
 
 function Post({ post }) {
-  const publicFolder = 'http://localhost:5000/images/';  // public folder to add all images
+  const publicFolder = 'https://writers-whisper-blogs-backend.onrender.com/images/';  // public folder to add all images
 
   return (
     <div className='post'>
