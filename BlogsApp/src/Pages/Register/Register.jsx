@@ -21,11 +21,7 @@ function Register() {
         email,
         password
       })
-<<<<<<< HEAD
-      res.data && window.location.replace("/api/auth/login")
-=======
       res.data && window.location.replace(`${apiBaseUrl}/login`)
->>>>>>> origin
     }
     
     catch (error) {
