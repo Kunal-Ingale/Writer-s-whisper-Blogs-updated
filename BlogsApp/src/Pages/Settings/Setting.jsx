@@ -17,40 +17,55 @@
     
 
 
-    const publicFolder = 'https://writer-s-whisper-blogs.vercel.app/images/'  
+    const publicFolder = 'http://localhost:5000/images/'  
 
-    const handleUpdate = async (e)=>{
+    const handleUpdate = async (e) => {
       e.preventDefault();
-      dispatch({type:"UPDATE_START"})
-      const updatedUser ={
-      userId:user._id,
-      username,
-      email,password
-      }
-      //for storing data
-      if(file){
-      const data = new FormData();
-      const fileName = Date.now()+ file.name;
-      data.append("name",fileName);
-      data.append("file",file);
-      updatedUser.profilePic = fileName;
-      
-      try {
-        await axios.post(`${apiBaseUrl}/upload`,data)
-      } catch (error) {
-        console.log("Error uploading file:", error);
-      }
-      }
-      try{
-      const res = await axios.put(`${apiBaseUrl}/users` + user._id,updatedUser)
-      setSuccess(true)
-      dispatch({type:"UPDATE_SUCCESS" , payload:res.data})
-    }
-      catch(err){
-        dispatch({type:"UPDATE_FAILURE"})
+      dispatch({ type: "UPDATE_START" });
+    
+      if (!user?.token) return console.error("No JWT token found");
+    
+      const updatedUser = { userId: user._id };
+      if (username) updatedUser.username = username;
+      if (email) updatedUser.email = email;
+      if (password.trim()) updatedUser.password = password;
+    
+      if (file) {
+        const data = new FormData();
+        const fileName = Date.now() + file.name;
+        data.append("name", fileName);
+        data.append("file", file);
+        updatedUser.profilePic = fileName;
+    
+        try {
+          await axios.post(`${apiBaseUrl}/upload`, data);
+        } catch (error) {
+          console.log("Error uploading file:", error);
+          return; // stop if upload fails
+        }
       }
     
-    }
+      try {
+        const res = await axios.put(`${apiBaseUrl}/users/` + user._id, updatedUser, {
+          headers: {
+            Authorization: "Bearer " + user.token
+          }
+        });
+        setSuccess(true);
+        dispatch({
+          type: "UPDATE_SUCCESS",
+          payload: { ...res.data, token: user.token }
+        });
+      } catch (err) {
+        if (err.response?.data?.details === "jwt expired") {
+          alert("Session expired. Please login again.");
+          window.location.replace("/login");
+        }
+        console.log("Update failed:", err.response?.data || err.message);
+        dispatch({ type: "UPDATE_FAILURE" });
+      }
+    };
+    
 
     return (
       <div className='setting'>
@@ -85,7 +100,7 @@
             <label >Password</label>
             <input type="password"
             onChange={(e)=>setPassword(e.target.value)}/>
-            <button className="settingSubmit" type='submit' onClick={handleUpdate}>Update</button>
+            <button className="settingSubmit" type='submit'>Update</button>
             {success && <span style={{color: 'green',textAlign:'centre'}}>Profile has been updated Successfully!</span>}
           </form>
         </div>

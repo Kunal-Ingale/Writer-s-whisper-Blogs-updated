@@ -21,7 +21,7 @@ function Register() {
         email,
         password
       })
-      res.data && window.location.replace(`${apiBaseUrl}/login`)
+      res.data && window.location.replace("http://localhost:5173/login")
     }
     
     catch (error) {

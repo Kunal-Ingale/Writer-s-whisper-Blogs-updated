@@ -10,8 +10,9 @@ function SinglePost() {
     //http://localhost:5173/post/66aefa6b63effaf152add1db 
     //['', 'post', '66aefa6b63effaf152add1db']
     const [post, setPost] = useState({});
-    const publicFolder = 'https://writer-s-whisper-blogs.vercel.app/images/';
+    const publicFolder = 'http://localhost:5000/images/';
     const { user } = useContext(Context);
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
@@ -19,7 +20,8 @@ function SinglePost() {
 
     useEffect(() => {
         const getPost = async () => {
-            const res = await axios.get('/api/posts/' + path);
+            const res = await axios.get(`${apiBaseUrl}/posts/` + path);
+            console.log(res.data);
             setPost(res.data);
             setTitle(res.data.title);
             setDesc(res.data.desc);
@@ -29,7 +31,7 @@ function SinglePost() {
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`/api/posts/${post._id}`, { data: { username: user.username } });
+            await axios.delete(`${apiBaseUrl}/posts/${post._id}`, { data: { username: user.username } });
             window.location.replace('/');
         } catch (err) {
             console.log("error" + err);
@@ -38,7 +40,7 @@ function SinglePost() {
 
     const handleUpdate = async () => {
         try {
-            await axios.put(`/api/posts/${post._id}`, {
+            await axios.put(`${apiBaseUrl}/posts/${post._id}`, {
                 username: user.username,
                 title,
                 desc

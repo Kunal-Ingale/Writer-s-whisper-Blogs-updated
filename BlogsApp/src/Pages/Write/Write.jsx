@@ -37,16 +37,24 @@ function Write() {
       data.append("name", fileName);
       data.append("file", file);
       newPost.photo = fileName;
-
+    
       try {
-        await axios.post(`${apiBaseUrl}/upload`, data);
+        const uploadRes = await axios.post(`${apiBaseUrl}/upload`, data);
+        if (!uploadRes.data) {
+          console.log("Upload failed, stopping post creation");
+          return; // stop creating post if upload failed
+        }
       } catch (error) {
         console.log("Error uploading file:", error);
+        return;
       }
     }
+    
 
     try {
       const res = await axios.post(`${apiBaseUrl}/posts/`, newPost);
+      console.log("Post created:", newPost);
+
       window.location.replace('/post/' + res.data._id);
     } catch (err) {
       console.log(err);
