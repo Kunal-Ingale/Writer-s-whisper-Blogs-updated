@@ -18,6 +18,9 @@
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
+  "engines": {
+  "node": "22.21.0"
+},
   "author": "kunal",
   "license": "ISC",
   "description": ""
