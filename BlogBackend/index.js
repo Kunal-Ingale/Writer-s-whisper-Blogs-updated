@@ -197,16 +197,10 @@ app.use((req, res) => {
 });
 
 // Start server
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📍 Environment: ${process.env.NODE_ENV || "development"}`);
-  console.log(`🌐 Allowed origins:`, allowedOrigins);
-  console.log(
-    `💾 MongoDB: ${
-      mongoose.connection.readyState === 1 ? "Connected" : "Connecting..."
-    }`
-  );
-});
+app.listen(PORT ,()=>{
+    console.log(`running on ${PORT}`);
+})
+
 
 // Handle graceful shutdown
 process.on("SIGTERM", () => {
