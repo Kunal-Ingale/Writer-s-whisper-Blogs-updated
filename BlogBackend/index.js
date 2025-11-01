@@ -68,10 +68,7 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 
 // MongoDB Connection
 mongoose
-  .connect(process.env.mongoUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.mongoUrl)
   .then(() => console.log("✅ MongoDB connected successfully"))
   .catch((err) => {
     console.error("❌ MongoDB connection error:", err);
