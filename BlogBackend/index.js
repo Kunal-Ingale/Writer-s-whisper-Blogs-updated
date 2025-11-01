@@ -14,29 +14,30 @@ const fs = require("fs");
 // Load environment variables FIRST
 dotenv.config();
 
-const PORT = process.env.PORT || 5000;
+// Railway automatically provides PORT
+const PORT = process.env.PORT || 8080;
 
-// CORS Configuration - Allow your Vercel frontend
+// ✅ Quick debug route for Railway
+app.get("/ping", (req, res) => res.send("pong"));
+
+// CORS Configuration
 const allowedOrigins = [
-  "https://writer-s-whisper-blogs.vercel.app", // Your Vercel URL from environment variable
-  "http://localhost:3000", // Local React development
-  "http://localhost:5173", // Local Vite development
-].filter(Boolean); // Remove undefined values
+  "https://writer-s-whisper-blogs.vercel.app", // Your frontend on Vercel
+  "http://localhost:3000", // Local React
+  "http://localhost:5173", // Local Vite
+].filter(Boolean);
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, Postman, curl)
-    if (!origin) return callback(null, true);
-
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    if (!origin) return callback(null, true); // Allow Postman or curl
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       console.log("⚠️ CORS blocked request from:", origin);
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true, // Allow cookies and authentication
-  optionsSuccessStatus: 200,
+  credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: [
     "Content-Type",
@@ -48,8 +49,6 @@ const corsOptions = {
 
 // Apply CORS middleware
 app.use(cors(corsOptions));
-
-// Handle preflight requests for all routes
 app.options("*", cors(corsOptions));
 
 // Body parser middleware
@@ -66,47 +65,46 @@ if (!fs.existsSync(imagesDir)) {
 // Serve static files
 app.use("/images", express.static(path.join(__dirname, "images")));
 
+// ✅ Start server early (before Mongo) to confirm Railway connection
+const server = app.listen(PORT, "0.0.0.0", () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📍 Environment: ${process.env.NODE_ENV || "development"}`);
+  console.log(`🌐 Allowed origins:`, allowedOrigins);
+});
+server.on("error", (err) => console.error("❌ Server failed to start:", err));
+
 // MongoDB Connection
 mongoose
   .connect(process.env.mongoUrl)
   .then(() => console.log("✅ MongoDB connected successfully"))
   .catch((err) => {
     console.error("❌ MongoDB connection error:", err);
-    process.exit(1); // Exit if database connection fails
   });
 
-// Multer configuration for file uploads
+// Multer configuration
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "images");
-  },
+  destination: (req, file, cb) => cb(null, "images"),
   filename: (req, file, cb) => {
-    // Generate unique filename to avoid conflicts
     const uniqueName = req.body.name || Date.now() + "-" + file.originalname;
     cb(null, uniqueName);
   },
 });
 
 const upload = multer({
-  storage: storage,
-  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB limit
+  storage,
+  limits: { fileSize: 50 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
-    // Accept images only
     const allowedTypes = /jpeg|jpg|png|gif|webp/;
     const extname = allowedTypes.test(
       path.extname(file.originalname).toLowerCase()
     );
     const mimetype = allowedTypes.test(file.mimetype);
-
-    if (mimetype && extname) {
-      return cb(null, true);
-    } else {
-      cb(new Error("Only image files are allowed!"));
-    }
+    if (mimetype && extname) return cb(null, true);
+    cb(new Error("Only image files are allowed!"));
   },
 });
 
-// Root endpoint
+// Root route
 app.get("/", (req, res) => {
   res.json({
     message: "Blog API is running",
@@ -122,7 +120,7 @@ app.get("/", (req, res) => {
   });
 });
 
-// Health check endpoint
+// Health check route
 app.get("/api/health", (req, res) => {
   res.json({
     status: "healthy",
@@ -133,7 +131,7 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// File upload endpoint
+// File upload route
 app.post("/api/upload", upload.single("file"), (req, res) => {
   try {
     if (req.file) {
@@ -155,7 +153,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
   }
 });
 
-// API Routes
+// API routes
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
@@ -164,8 +162,6 @@ app.use("/api/categories", categoryRoute);
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error("❌ Error:", err.stack);
-
-  // Handle Multer errors
   if (err instanceof multer.MulterError) {
     if (err.code === "LIMIT_FILE_SIZE") {
       return res.status(400).json({
@@ -178,14 +174,13 @@ app.use((err, req, res, next) => {
     });
   }
 
-  // Handle other errors
   res.status(err.status || 500).json({
     message: err.message || "Something went wrong!",
     error: process.env.NODE_ENV === "production" ? {} : err.stack,
   });
 });
 
-// 404 handler - must be last
+// 404 handler
 app.use((req, res) => {
   res.status(404).json({
     message: "Route not found",
@@ -193,15 +188,9 @@ app.use((req, res) => {
   });
 });
 
-// Start server
-app.listen(PORT ,()=>{
-    console.log(`running on ${PORT}`);
-})
-
-
-// Handle graceful shutdown
+// Graceful shutdown
 process.on("SIGTERM", () => {
-  console.log("👋 SIGTERM signal received: closing HTTP server");
+  console.log("👋 SIGTERM received: closing HTTP server");
   mongoose.connection.close(false, () => {
     console.log("💾 MongoDB connection closed");
     process.exit(0);
