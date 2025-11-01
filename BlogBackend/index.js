@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 5000;
 
 // CORS Configuration - Allow your Vercel frontend
 const allowedOrigins = [
-  process.env.FRONTEND_URL, // Your Vercel URL from environment variable
+  "https://writer-s-whisper-blogs.vercel.app", // Your Vercel URL from environment variable
   "http://localhost:3000", // Local React development
   "http://localhost:5173", // Local Vite development
 ].filter(Boolean); // Remove undefined values
